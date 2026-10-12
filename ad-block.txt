@@ -1,0 +1,43 @@
+# 高德 / AMap 广告与日志
+DOMAIN,adashx.ut.amap.com
+DOMAIN,v6-adashx.ut.amap.com
+DOMAIN,dualstack-logs.amap.com
+DOMAIN,logs.amap.com
+DOMAIN,optimus-ads.amap.com.w.alikunlun.com
+DOMAIN-KEYWORD,optimus-ads
+# 阿里系 / 淘宝 / 天猫 广告与统计
+DOMAIN-SUFFIX,adash.m.taobao.com
+DOMAIN-SUFFIX,adashx.m.taobao.com
+DOMAIN-SUFFIX,adashx.ut.taobao.com
+DOMAIN-SUFFIX,h-adashx.ut.taobao.com
+DOMAIN-SUFFIX,adashbc.m.taobao.com
+DOMAIN-SUFFIX,adashbc.ut.taobao.com
+DOMAIN-SUFFIX,adashxgc.ut.taobao.com
+DOMAIN-SUFFIX,m-adash.m.taobao.com
+DOMAIN-SUFFIX,mmstat.com
+DOMAIN-SUFFIX,alimama.com
+DOMAIN-SUFFIX,tanx.com
+DOMAIN-SUFFIX,ifs.tanx.com
+DOMAIN-SUFFIX,m.simaba.taobao.com
+DOMAIN-SUFFIX,tns.simba.taobao.com
+DOMAIN-SUFFIX,afp.alicdn.com
+DOMAIN-SUFFIX,atanx.alicdn.com
+# 微信 / 腾讯广告 / 朋友圈广告相关
+DOMAIN,wxsnsdy.wxs.qq.com
+DOMAIN,wxsnsdythumb.wxs.qq.com
+DOMAIN-SUFFIX,e.qq.com
+DOMAIN-SUFFIX,gdt.qq.com
+DOMAIN-SUFFIX,l.qq.com
+DOMAIN-SUFFIX,beacon.qq.com
+DOMAIN-SUFFIX,bugly.qq.com
+DOMAIN-SUFFIX,rqd.qq.com
+DOMAIN,adsmind.tc.qq.com
+DOMAIN,btrace.qq.com
+DOMAIN,mtrace.qq.com
+DOMAIN,oth.eve.mdt.qq.com
+DOMAIN,pgdt.gtimg.com
+DOMAIN,pgdt.gtimg.cn
+DOMAIN,pgdt.ugdtimg.com
+DOMAIN,pingma.qq.com
+DOMAIN,pingtcss.qq.com
+DOMAIN,tajs.qq.com
