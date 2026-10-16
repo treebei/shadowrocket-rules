@@ -45,3 +45,5 @@ DOMAIN,pingma.qq.com
 DOMAIN,pingtcss.qq.com
 DOMAIN,tajs.qq.com
 
+# 菜鸟裹裹 / Cainiao 广告
+DOMAIN,nbcps-mtop.cainiao.com
