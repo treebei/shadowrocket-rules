@@ -1,0 +1,37 @@
+#!name=高德与菜鸟广告接口拦截
+#!desc=补充域名规则：拦截部分开屏、路线规划推广和菜鸟广告接口；需要 HTTPS 解密，不保证全量净化。
+# 来源与适配：ddgksf2013 的 AmapAds.conf；小白脸菜鸟包裹规则（NobyDa 频道转发）。
+# https://github.com/ddgksf2013/Rewrite/blob/master/AdBlock/AmapAds.conf
+# https://t.me/NobyDa/1017
+# 在 Shadowrocket 的配置 > 模块中添加本文件的 Raw URL。
+# 需要在当前配置启用 HTTPS 解密，并生成、安装和完全信任自己的 Shadowrocket 证书。
+# 不包含证书、私钥或远程执行脚本；不自动开启 HTTPS 解密。
+# 已下载的广告缓存可能继续展示；先清理 App 缓存再完全退出并重新启动。
+# ad-block.txt 仍作为域名规则集使用；引用策略应为 REJECT，且在相关 DIRECT 规则之前。
+# 本模块仅做广告接口拦截；首页混合业务响应中的推广卡片需另行分析。
+# 未在实际 iPhone / App 上验证；如业务异常，可停用本模块。
+
+[URL Rewrite]
+# 高德：开屏请求
+^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/aos\/alimama\/splash_screen(?:[/?]|$) - reject
+
+# 高德：开屏广告
+^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/valueadded\/alimama\/splash_screen(?:[/?]|$) - reject
+
+# 高德：路线规划下方推广
+^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/faas\/amap-navigation\/card-service-route-plan\? - reject
+
+# 菜鸟：首页商品推广
+^https?:\/\/nbcps-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn(?:[/?]|$) - reject
+
+# 菜鸟：广告信息流
+^https?:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.index(?:[./?]|$) - reject
+
+# 菜鸟：搜索栏推广
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get\.cn(?:[/?]|$) - reject
+
+# 菜鸟：推广展示
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show(?:[./?]|$) - reject
+
+[MITM]
+hostname = %APPEND% m5.amap.com, m5-zb.amap.com, center.amap.com, amap-aos-info-nogw.amap.com, ai.amap.com, nbcps-mtop.cainiao.com, netflow-mtop.cainiao.com, cn-acs.m.cainiao.com
