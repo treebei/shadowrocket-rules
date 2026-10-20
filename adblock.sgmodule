@@ -1,19 +1,8 @@
 #!name=adblock
-#!desc=合并高德、阿里、微信、菜鸟域名规则及高德、菜鸟广告 URL 拦截；URL 拦截需要 HTTPS 解密。
-# 来源与适配：ddgksf2013 的 AmapAds.conf；小白脸菜鸟包裹规则（NobyDa 频道转发）。
-# https://github.com/ddgksf2013/Rewrite/blob/master/AdBlock/AmapAds.conf
-# https://t.me/NobyDa/1017
-# 在 Shadowrocket 的配置 > 模块中添加本文件的 Raw URL。
-# 需要在当前配置启用 HTTPS 解密，并生成、安装和完全信任自己的 Shadowrocket 证书。
-# 不包含证书、私钥或远程执行脚本；不自动开启 HTTPS 解密。
-# 已下载的广告缓存可能继续展示；先清理 App 缓存再完全退出并重新启动。
-# 已内置 ad-block.txt 的全部域名规则；启用本模块后无需再单独引用该规则集。
-# 请确保本模块的 REJECT 规则在相关 DIRECT / 放行规则之前生效。
-# 域名拦截不需要 HTTPS 解密；首页混合业务响应中的推广卡片需另行分析。
-# 未在实际 iPhone / App 上验证；如业务异常，可停用本模块。
+#!desc=高德、阿里、微信、菜鸟及 Bilibili 广告拦截；路径与正文过滤需启用 HTTPS 解密并信任证书。
 
 [Rule]
-# 高德 / AMap 广告与日志
+# 高德
 DOMAIN,adashx.ut.amap.com,REJECT
 DOMAIN,v6-adashx.ut.amap.com,REJECT
 DOMAIN,dualstack-logs.amap.com,REJECT
@@ -21,7 +10,7 @@ DOMAIN,logs.amap.com,REJECT
 DOMAIN,optimus-ads.amap.com.w.alikunlun.com,REJECT
 DOMAIN-KEYWORD,optimus-ads,REJECT
 
-# 阿里系 / 淘宝 / 天猫 广告与统计
+# 淘宝 / 天猫 / 阿里
 DOMAIN-SUFFIX,adash.m.taobao.com,REJECT
 DOMAIN-SUFFIX,adashx.m.taobao.com,REJECT
 DOMAIN-SUFFIX,adashx.ut.taobao.com,REJECT
@@ -39,7 +28,7 @@ DOMAIN-SUFFIX,tns.simba.taobao.com,REJECT
 DOMAIN-SUFFIX,afp.alicdn.com,REJECT
 DOMAIN-SUFFIX,atanx.alicdn.com,REJECT
 
-# 微信 / 腾讯广告 / 朋友圈广告相关
+# 微信 / 腾讯
 DOMAIN,wxsnsdy.wxs.qq.com,REJECT
 DOMAIN,wxsnsdythumb.wxs.qq.com,REJECT
 DOMAIN-SUFFIX,e.qq.com,REJECT
@@ -59,30 +48,32 @@ DOMAIN,pingma.qq.com,REJECT
 DOMAIN,pingtcss.qq.com,REJECT
 DOMAIN,tajs.qq.com,REJECT
 
-# 菜鸟裹裹 / Cainiao 广告
+# 菜鸟裹裹
 DOMAIN,nbcps-mtop.cainiao.com,REJECT
 
 [URL Rewrite]
-# 高德：开屏请求
-^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/aos\/alimama\/splash_screen(?:[/?]|$) - reject
-
-# 高德：开屏广告
+# 高德
+^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/aos\/alimama\/splash_screen(?:[/?]|$) - reject-200
 ^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/valueadded\/alimama\/splash_screen(?:[/?]|$) - reject
+^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/faas\/amap-navigation\/card-service-route-plan(?:[/?]|$) - reject-dict
+^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/v\d+\/ai_rec\/ - reject-dict
+^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/asa\/ads_attribution(?:[/?]|$) - reject
+^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/shield\/scene\/recommend(?:[/?]|$) - reject-dict
 
-# 高德：路线规划下方推广
-^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/faas\/amap-navigation\/card-service-route-plan\? - reject
+# 菜鸟裹裹
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn(?:[/?]|$) - reject-200
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?!.*_home) - reject-200
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get\.cn(?:[/?]|$) - reject
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area(?:[./?]|$) - reject-200
+^https?:\/\/(?:guide-acs|acs4miniapp-inner)\.m\.taobao\.com\/gw\/(?:mtop\.cainiao\.guoguo\.nbnetflow\.ads\.|mtop\.cainiao\.adx\.flyad\.getad(?:[./?]|$)|mtop\.alimama\.abyss\.unionpage\.get(?:[./?]|$)) - reject-200
 
-# 菜鸟：首页商品推广
-^https?:\/\/nbcps-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn(?:[/?]|$) - reject
+# Bilibili
+^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/splash\/(?:list|show|event\/list2)(?:[/?]|$) - reject-dict
 
-# 菜鸟：广告信息流
-^https?:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.index(?:[./?]|$) - reject
-
-# 菜鸟：搜索栏推广
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get\.cn(?:[/?]|$) - reject
-
-# 菜鸟：推广展示
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show(?:[./?]|$) - reject
+[Body Rewrite]
+# Bilibili
+http-response-jq ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/feed\/index(?:[/?]|$) 'if (.data.items | type) == "array" then .data.items |= map(select(((.card_type // "") | test("^cm($|_)")) | not)) else . end'
+http-response-jq ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/search(?:[/?]|$) 'if (.data.item | type) == "array" then .data.item |= map(select(((.linktype // "") | endswith("_ad")) | not)) else . end'
 
 [MITM]
-hostname = %APPEND% m5.amap.com, m5-zb.amap.com, center.amap.com, amap-aos-info-nogw.amap.com, ai.amap.com, nbcps-mtop.cainiao.com, netflow-mtop.cainiao.com, cn-acs.m.cainiao.com
+hostname = %APPEND% m5.amap.com, m5-zb.amap.com, center.amap.com, amap-aos-info-nogw.amap.com, ai.amap.com, *.cainiao.com, guide-acs.m.taobao.com, acs4miniapp-inner.m.taobao.com, app.bilibili.com, app.biliapi.net

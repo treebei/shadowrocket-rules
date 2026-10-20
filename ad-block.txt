@@ -1,5 +1,4 @@
-
-# 高德 / AMap 广告与日志
+# 高德
 DOMAIN,adashx.ut.amap.com
 DOMAIN,v6-adashx.ut.amap.com
 DOMAIN,dualstack-logs.amap.com
@@ -7,7 +6,7 @@ DOMAIN,logs.amap.com
 DOMAIN,optimus-ads.amap.com.w.alikunlun.com
 DOMAIN-KEYWORD,optimus-ads
 
-# 阿里系 / 淘宝 / 天猫 广告与统计
+# 淘宝 / 天猫 / 阿里
 DOMAIN-SUFFIX,adash.m.taobao.com
 DOMAIN-SUFFIX,adashx.m.taobao.com
 DOMAIN-SUFFIX,adashx.ut.taobao.com
@@ -25,7 +24,7 @@ DOMAIN-SUFFIX,tns.simba.taobao.com
 DOMAIN-SUFFIX,afp.alicdn.com
 DOMAIN-SUFFIX,atanx.alicdn.com
 
-# 微信 / 腾讯广告 / 朋友圈广告相关
+# 微信 / 腾讯
 DOMAIN,wxsnsdy.wxs.qq.com
 DOMAIN,wxsnsdythumb.wxs.qq.com
 DOMAIN-SUFFIX,e.qq.com
@@ -45,5 +44,5 @@ DOMAIN,pingma.qq.com
 DOMAIN,pingtcss.qq.com
 DOMAIN,tajs.qq.com
 
-# 菜鸟裹裹 / Cainiao 广告
+# 菜鸟裹裹
 DOMAIN,nbcps-mtop.cainiao.com
