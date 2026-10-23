@@ -1,6 +1,6 @@
 #!name=adblock
-#!version=2026.10.23.3
-#!desc=高德、阿里、微信、菜鸟及 Bilibili 广告拦截；路径与正文过滤需启用 HTTPS 解密并信任证书。
+#!version=2026.10.23.4
+#!desc=高德、阿里、微信、菜鸟及 Bilibili 广告拦截；京东底部导航精简；路径与正文过滤需启用 HTTPS 解密并信任证书。
 
 [Rule]
 # 高德
@@ -78,6 +78,9 @@ DOMAIN,nbcps-mtop.cainiao.com,REJECT
 ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/splash\/(?:list|show|event\/list2)(?:[/?]|$) - reject-dict
 
 [Body Rewrite]
+# 京东
+http-response-jq ^https?:\/\/api\.m\.jd\.com\/client\.action\?(?:[^&#]*&)*functionId=readCustomSurfaceList(?:&|$) 'def trim_nav: if type == "array" then . as $original | map(select(.functionId == "index" or .functionId == "messagenew" or .functionId == "cart" or .functionId == "home")) | if length > 0 then . else $original end else . end; if (.result.modeMap | type) == "object" then .result.modeMap |= with_entries(if (.key == "normal" or .key == "dark") and ((.value | type) == "object") and ((.value.navigationAll | type) == "array") then .value.navigationAll |= trim_nav else . end) else . end'
+
 # Bilibili
 http-response-jq ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/feed\/index(?:[/?]|$) 'if (.data.items | type) == "array" then .data.items |= map(select(((.card_type // "") | test("^cm($|_)")) | not)) else . end'
 http-response-jq ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/search(?:[/?]|$) 'if (.data.item | type) == "array" then .data.item |= map(select(((.linktype // "") | endswith("_ad")) | not)) else . end'
@@ -87,4 +90,4 @@ http-response-jq ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/search(
 cainiao_amdc = type=http-response,pattern=^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch(?:[/?]|$),requires-body=1,script-path=https://raw.githubusercontent.com/treebei/shadowrocket-rules/main/scripts/cainiao-amdc.js
 
 [MITM]
-hostname = %APPEND% amdc.m.taobao.com, httpbin.org, m*.amap.com, center.amap.com, amap-aos-info-nogw.amap.com, ai.amap.com, *.cainiao.com, guide-acs.m.taobao.com, acs4miniapp-inner.m.taobao.com, app.bilibili.com, app.biliapi.net
+hostname = %APPEND% api.m.jd.com, amdc.m.taobao.com, httpbin.org, m*.amap.com, center.amap.com, amap-aos-info-nogw.amap.com, ai.amap.com, *.cainiao.com, guide-acs.m.taobao.com, acs4miniapp-inner.m.taobao.com, app.bilibili.com, app.biliapi.net
