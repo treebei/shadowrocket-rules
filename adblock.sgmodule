@@ -1,4 +1,5 @@
 #!name=adblock
+#!version=2026.10.23.1
 #!desc=高德、阿里、微信、菜鸟及 Bilibili 广告拦截；路径与正文过滤需启用 HTTPS 解密并信任证书。
 
 [Rule]
@@ -53,8 +54,9 @@ DOMAIN,nbcps-mtop.cainiao.com,REJECT
 
 [URL Rewrite]
 # 高德
-^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/aos\/alimama\/splash_screen(?:[/?]|$) - reject-200
-^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/valueadded\/alimama\/splash_screen(?:[/?]|$) - reject
+^https?:\/\/(?:m\d+(?:-zb)?|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/aos\/alimama\/splash_screen(?:_rt)?(?:[/?]|$) - reject-200
+^https?:\/\/(?:m\d+(?:-zb)?|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/valueadded\/alimama\/splash_screen(?:[/?]|$) - reject
+^https?:\/\/m\d+(?:-zb)?\.amap\.com\/ws\/shield\/dsp\/app\/startup\/init(?:[/?]|$) - reject-dict
 ^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/faas\/amap-navigation\/card-service-route-plan(?:[/?]|$) - reject-dict
 ^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/v\d+\/ai_rec\/ - reject-dict
 ^https?:\/\/(?:m5|m5-zb|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/asa\/ads_attribution(?:[/?]|$) - reject
@@ -76,4 +78,4 @@ http-response-jq ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/feed\/i
 http-response-jq ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/search(?:[/?]|$) 'if (.data.item | type) == "array" then .data.item |= map(select(((.linktype // "") | endswith("_ad")) | not)) else . end'
 
 [MITM]
-hostname = %APPEND% m5.amap.com, m5-zb.amap.com, center.amap.com, amap-aos-info-nogw.amap.com, ai.amap.com, *.cainiao.com, guide-acs.m.taobao.com, acs4miniapp-inner.m.taobao.com, app.bilibili.com, app.biliapi.net
+hostname = %APPEND% m*.amap.com, center.amap.com, amap-aos-info-nogw.amap.com, ai.amap.com, *.cainiao.com, guide-acs.m.taobao.com, acs4miniapp-inner.m.taobao.com, app.bilibili.com, app.biliapi.net
