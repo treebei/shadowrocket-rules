@@ -16,7 +16,7 @@ Shadowrocket 自用广告规则。使用 [adblock.sgmodule](https://raw.githubus
 | 高德 | 广告/统计域名、开屏请求、路线规划推广、ai_rec 信息流、广告归因、scene 推荐 |
 | 淘宝 / 天猫 / 阿里 | 已列出的广告与统计域名 |
 | 微信 / 腾讯 | 已列出的广告与统计域名，不保证清除所有朋友圈广告 |
-| 菜鸟裹裹 | 商品推广、nbnetflow 广告（保留 URL 含 _home 的接口）、搜索热词、底部角标及部分支付宝小程序广告 |
+| 菜鸟裹裹 | 商品推广、nbnetflow 广告（show / mshow / batch.show.v2 显式匹配，其他含 _home 的请求保留）及菜鸟专用 AMDC 调度回退、搜索热词、底部角标及部分支付宝小程序广告 |
 | Bilibili | 开屏、JSON 推荐流 cm 广告卡片、JSON 搜索结果 _ad 卡片 |
 
 Bilibili 新版 gRPC / Protobuf 推荐流、动态和视频内嵌推广不在本次规则范围。菜鸟、高德将广告与正常业务混合返回的首页卡片，也不能仅靠拒绝整条请求完整净化。
@@ -45,8 +45,16 @@ Bilibili 新版 gRPC / Protobuf 推荐流、动态和视频内嵌推广不在本
 未在用户 iPhone 上实测。httpbin.org 是公开测试服务，可用性取决于服务及当前网络。
 停用测试可在本地模块中注释两条测试重写规则，并移除 MITM hostname 中的 httpbin.org；远程更新会恢复仓库版本。
 
+## 菜鸟开屏排查
+
+模块版本 `2026.10.23.3` 增加 show / mshow / batch.show.v2 显式规则，避免这些广告 API 因查询参数含 _home 而漏匹配；新增仓库内 scripts/cainiao-amdc.js，仅对 User-Agent 含 Cainiao 的 amdc.m.taobao.com/amdc/mobileDispatch 响应清空内容，尝试使客户端回退到常规连接。此做法参考下方上游 AMDC 处理，不能保证当前 App 版本一定回退或开屏必定消失。
+
+更新模块、重新应用配置并重连 VPN，彻底退出菜鸟后重开。日志中搜索 nbnetflow.ads、amdc/mobileDispatch 和 reject。若仍出现开屏，需要启动期间的实际请求日志确认是否使用其他广告接口或缓存；尚未在实际 iPhone 上验证。若出现联网异常，可先停用 cainiao_amdc 脚本。
+
 ## 参考
 
 - 高德：[@ddgksf2013 / AmapAds.conf](https://github.com/ddgksf2013/Rewrite/blob/master/AdBlock/AmapAds.conf)
 - 菜鸟：[@ddgksf2013 / CainiaoAds.conf](https://github.com/ddgksf2013/Rewrite/blob/master/AdBlock/CainiaoAds.conf)、[小白脸规则 / NobyDa 转发](https://t.me/NobyDa/1017)
 - Bilibili JSON 字段与接口参考：[Maasea / Bilibili Helper](https://github.com/Maasea/sgmodule/blob/master/Script/Bilibili/bilibili.helper.v2.js)；本仓库用 jq 过滤，不加载其远程脚本。
+
+- 菜鸟 AMDC 与广告接口补充：[fmz200 / wool_scripts](https://github.com/fmz200/wool_scripts)。本仓库仅加载自有的菜鸟 AMDC 脚本。
