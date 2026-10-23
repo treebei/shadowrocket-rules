@@ -1,5 +1,5 @@
 #!name=adblock
-#!version=2026.10.23.1
+#!version=2026.10.23.2
 #!desc=高德、阿里、微信、菜鸟及 Bilibili 广告拦截；路径与正文过滤需启用 HTTPS 解密并信任证书。
 
 [Rule]
@@ -53,6 +53,10 @@ DOMAIN,tajs.qq.com,REJECT
 DOMAIN,nbcps-mtop.cainiao.com,REJECT
 
 [URL Rewrite]
+# HTTPS 测试（停用测试可注释下方两行）
+^https:\/\/httpbin\.org\/anything\/sr-mitm-test(?:\?[^#]*)?$ https://example.com/?shadowrocket_mitm=ok 302
+^https:\/\/httpbin\.org\/anything\/sr-reject-test(?:\?[^#]*)?$ - reject-dict
+
 # 高德
 ^https?:\/\/(?:m\d+(?:-zb)?|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/aos\/alimama\/splash_screen(?:_rt)?(?:[/?]|$) - reject-200
 ^https?:\/\/(?:m\d+(?:-zb)?|center|amap-aos-info-nogw|ai)\.amap\.com\/ws\/valueadded\/alimama\/splash_screen(?:[/?]|$) - reject
@@ -78,4 +82,4 @@ http-response-jq ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/feed\/i
 http-response-jq ^https?:\/\/app\.(?:bilibili\.com|biliapi\.net)\/x\/v2\/search(?:[/?]|$) 'if (.data.item | type) == "array" then .data.item |= map(select(((.linktype // "") | endswith("_ad")) | not)) else . end'
 
 [MITM]
-hostname = %APPEND% m*.amap.com, center.amap.com, amap-aos-info-nogw.amap.com, ai.amap.com, *.cainiao.com, guide-acs.m.taobao.com, acs4miniapp-inner.m.taobao.com, app.bilibili.com, app.biliapi.net
+hostname = %APPEND% httpbin.org, m*.amap.com, center.amap.com, amap-aos-info-nogw.amap.com, ai.amap.com, *.cainiao.com, guide-acs.m.taobao.com, acs4miniapp-inner.m.taobao.com, app.bilibili.com, app.biliapi.net
