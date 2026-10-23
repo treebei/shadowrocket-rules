@@ -1,6 +1,6 @@
 # shadowrocket-rules
 
-Shadowrocket 自用广告规则。优先使用 [adblock.sgmodule](https://raw.githubusercontent.com/treebei/shadowrocket-rules/main/adblock.sgmodule)，已包含 ad-block.txt 全部域名规则，无需重复引用。
+Shadowrocket 自用广告规则。使用 [adblock.sgmodule](https://raw.githubusercontent.com/treebei/shadowrocket-rules/main/adblock.sgmodule)，统一包含域名拦截、路径重写和正文过滤。
 
 ## 使用
 
@@ -24,21 +24,11 @@ Bilibili 新版 gRPC / Protobuf 推荐流、动态和视频内嵌推广不在本
 ## 失效排查
 
 - 模块 URL 必须以 adblock.sgmodule 结尾。旧模块改名后路径已删除，仍订阅旧地址会更新失败。
-- 若只引用 ad-block.txt，只能进行域名拦截，不会加载 HTTPS 路径或正文过滤。
+- 旧域名规则文件已移除；若配置中仍有指向旧文件的 RULE-SET 引用，请删除并使用上述模块。
 - 检查模块是否已更新和启用、全局路由是否为「配置」、当前配置的 HTTPS 解密及证书信任状态。
 - 日志中只有域名而没有 HTTPS 路径时，检查是否完成解密。若匹配了其他模块的放行规则，调整模块顺序后重新编译。
 - 规则已命中但广告仍在，先清理缓存；新接口需要结合实际请求日志追加。分享日志时删除 Cookie、令牌和个人信息。
 - 本仓库已进行静态检查与规则匹配测试，未在实际 iPhone 和当前 App 版本上验证。
-
-## 仅使用域名规则
-
-将下面一行放在当前配置的 [Rule] 段中，置于相关 DIRECT 规则和 FINAL 之前。已启用模块则无需再加：
-
-```ini
-RULE-SET,https://raw.githubusercontent.com/treebei/shadowrocket-rules/main/ad-block.txt,REJECT
-```
-
-此方式不包含 Bilibili 的路径及正文过滤。
 
 ## 参考
 
